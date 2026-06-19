@@ -1,0 +1,6 @@
+columns:
+  - name: delay_in_days
+    tests:
+      - dbt_utils.accepted_range:
+          min_value: -50
+          max_value: 100

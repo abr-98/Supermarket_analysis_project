@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+
+  - name: bronze
+
+    database: OLIST
+    schema: BRONZE
+
+    tables:
+      - name: SELLERS
+      - name: CHURN
+      - name: PAYMENTS
+
+  - name: silver
+
+    database: OLIST
+    schema: SILVER
+
+    tables:
+      - name: CUSTOMERS
+      - name: ORDERS
+      - name: ORDER_ITEMS

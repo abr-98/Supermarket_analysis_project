@@ -1,0 +1,5 @@
+columns:
+  - name: total_value
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "> 0"
