@@ -5,6 +5,11 @@ SELECT
     MONTH,
     DAY,
     YEAR,
+    TO_DATE(
+    YEAR || '-' ||
+    LPAD(MONTH::VARCHAR, 2, '0') || '-' ||
+    LPAD(DAY::VARCHAR, 2, '0')
+    ) AS ORDER_DATE,
     CASE 
         WHEN HOUR >= 5 AND HOUR < 10 THEN 'MORNING'
         WHEN HOUR >= 10 AND HOUR < 17 THEN 'AFTERNOON'

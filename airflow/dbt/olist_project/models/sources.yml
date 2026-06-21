@@ -20,4 +20,9 @@ sources:
     tables:
       - name: CUSTOMERS
       - name: ORDERS
+        config:
+          freshness:
+            warn_after:
+              count: 1
+              period: day
       - name: ORDER_ITEMS

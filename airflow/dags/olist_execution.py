@@ -13,7 +13,8 @@ with DAG(
 
     schedule="@daily",
 
-    catchup=False
+    catchup=False,
+    retries=3
 ) as dag:
 
     transformation = DatabricksRunNowOperator(
