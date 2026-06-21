@@ -15,3 +15,16 @@ docker compose up
 
 username: airflow
 password: airflow
+
+
+## For connections
+
+For databricks connection: Create PAT.
+Add connection in admin as:
+
+Connection ID: databricks_default
+Connection Type: Databricks
+Host:
+https://<your-workspace-url>
+Password:
+<Personal Access Token>
