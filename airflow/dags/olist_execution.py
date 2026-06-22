@@ -1,11 +1,12 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from datetime import datetime
-
-
+default_args = {
+    "retries": 3,
+    "retry_delay": timedelta(minutes=5)
+}
 with DAG(
     dag_id="olist_pipeline",
 
@@ -14,7 +15,7 @@ with DAG(
     schedule="@daily",
 
     catchup=False,
-    retries=3
+    default_args=default_args
 ) as dag:
 
     transformation = DatabricksRunNowOperator(
@@ -28,6 +29,12 @@ with DAG(
         databricks_conn_id="databricks_default",
         job_id=167285196996795
     )
+    
+    ML_analysis_task = DatabricksRunNowOperator(
+        task_id="ML_analysis_task",
+        databricks_conn_id="databricks_default",
+        job_id=105129514371397
+    )
 
 
     dbt_run = BashOperator(
@@ -35,7 +42,7 @@ with DAG(
 
         bash_command="""
         cd /opt/airflow/dbt/olist_project &&
-        dbt run
+        dbt run --full-refresh
         """
     )
 
@@ -57,4 +64,4 @@ with DAG(
         """
     )
 
-    transformation >> Migration_task >> dbt_run >> dbt_test >> dbt_snapshot
+    transformation >> Migration_task >> dbt_run >> dbt_test >> dbt_snapshot >> ML_analysis_task
